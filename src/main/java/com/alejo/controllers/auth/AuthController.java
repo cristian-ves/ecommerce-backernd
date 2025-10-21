@@ -54,16 +54,28 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequestDTO registerRequestDTO) {
+
+        if(registerRequestDTO.getName().isEmpty() || registerRequestDTO.getEmail().isEmpty() || registerRequestDTO.getPassword().isEmpty()) {
+            return ResponseEntity.status(400).body("All fields are mandatory");
+        }
+
         try {
             User newUser = userService.register(registerRequestDTO);
+            String token = jwtUtils.generateToken(newUser.getEmail());
+
+            UserDTO userDTO = UserDTO.builder()
+                    .id(newUser.getId())
+                    .role(newUser.getRole())
+                    .name(newUser.getName())
+                    .email(newUser.getEmail())
+                    .suspended(newUser.getSuspended())
+                    .build();
             return ResponseEntity.status(201).body(Map.of(
-                    "id", newUser.getId(),
-                    "name", newUser.getName(),
-                    "email", newUser.getEmail(),
-                    "role", newUser.getRole()
+                    "token", token,
+                    "user", userDTO
             ));
         } catch (RuntimeException e) {
-            return ResponseEntity.status(400).body(Map.of("error", e.getMessage()));
+            return ResponseEntity.status(400).body(e.getMessage());
         }
     }
 

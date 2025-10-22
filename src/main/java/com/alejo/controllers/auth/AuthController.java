@@ -74,7 +74,7 @@ public class AuthController {
 
         String token = authHeader.substring(7);
         if (!jwtUtils.validateToken(token)) {
-            return ResponseEntity.status(401).body("Invalid token");
+            return ResponseEntity.status(401).body("");
         }
 
         String email = jwtUtils.getUsernameFromToken(token);

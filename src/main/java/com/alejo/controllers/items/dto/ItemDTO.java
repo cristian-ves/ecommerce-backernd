@@ -13,6 +13,7 @@ public class ItemDTO {
     private String description;
     private String image;
     private double price = 0.0;
+    private int stock = 1;
     private boolean isNew = true;
     private CategoryDTO category;
     private UserDTO user;

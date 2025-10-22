@@ -28,6 +28,9 @@ public class Item {
     @Column(nullable = false)
     private double price = 0.0;
 
+    @Column(nullable = false, columnDefinition = "integer default 1")
+    private int stock = 1;
+
     @Column(name = "new", nullable = false)
     private boolean isNew = true;
 

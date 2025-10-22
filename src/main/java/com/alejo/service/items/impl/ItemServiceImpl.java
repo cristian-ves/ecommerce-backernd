@@ -18,4 +18,15 @@ public class ItemServiceImpl implements IItemService {
     public List<Item> findPaginatedItems(int page, int size) {
         return itemDAO.findPaginatedItems(page, size);
     }
+
+    @Override
+    public List<Item> searchItems(String query) {
+        return itemDAO.search(query);
+    }
+
+    @Override
+    public List<Item> findByCategories(List<Integer> categoryIds) {
+        return itemDAO.findByCategories(categoryIds);
+    }
+
 }

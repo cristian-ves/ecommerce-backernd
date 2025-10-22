@@ -37,6 +37,22 @@ public class ItemController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("/search")
+    public List<ItemDTO> searchItems(@RequestParam("q") String query) {
+        return itemService.searchItems(query)
+                .stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/filter")
+    public List<ItemDTO> filterItemsByCategory(@RequestParam List<Integer> categories) {
+        List<Item> items = itemService.findByCategories(categories);
+        return items.stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+    }
+
     private ItemDTO mapToDTO(Item item) {
         return ItemDTO.builder()
                 .id(item.getId())
@@ -57,7 +73,9 @@ public class ItemController {
                         .role(item.getUser().getRole())
                         .name(item.getUser().getName())
                         .email(item.getUser().getEmail())
+                        .suspended(item.getUser().getSuspended())
                         .build())
+                .stock(item.getStock())
                 .build();
     }
 }

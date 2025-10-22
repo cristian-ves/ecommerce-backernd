@@ -24,4 +24,16 @@ public class ItemDAOImpl implements IItemDAO {
         Page<Item> items = itemRepository.findAllByAcceptedTrueAndUser_SuspendedFalse(pageable);
         return items.getContent();
     }
+
+    @Override
+    public List<Item> search(String query) {
+        return itemRepository.findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(query, query);
+    }
+
+    @Override
+    public List<Item> findByCategories(List<Integer> categories) {
+        return itemRepository.findByCategoryIdIn(categories);
+    }
+
+
 }

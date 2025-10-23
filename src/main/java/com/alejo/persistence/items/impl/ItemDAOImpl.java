@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class ItemDAOImpl implements IItemDAO {
@@ -33,6 +34,11 @@ public class ItemDAOImpl implements IItemDAO {
     @Override
     public List<Item> findByCategories(List<Integer> categories) {
         return itemRepository.findByCategoryIdIn(categories);
+    }
+
+    @Override
+    public Optional<Item> findById(int id) {
+        return itemRepository.findById(id);
     }
 
 

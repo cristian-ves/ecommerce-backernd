@@ -7,6 +7,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ItemRepository extends PagingAndSortingRepository<Item, Integer> {
@@ -17,4 +18,5 @@ public interface ItemRepository extends PagingAndSortingRepository<Item, Integer
 
     List<Item> findByCategoryIdIn(List<Integer> ids);
 
+    Optional<Item> findById(int id);
 }

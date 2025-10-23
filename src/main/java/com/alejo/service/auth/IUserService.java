@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface IUserService {
 
     Optional<User> findByEmail(String email);
+    Optional<User> findById(Integer id);
     User register(RegisterRequestDTO registerRequestDTO);
 
 }

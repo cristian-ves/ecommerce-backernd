@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ItemServiceImpl implements IItemService {
@@ -27,6 +28,11 @@ public class ItemServiceImpl implements IItemService {
     @Override
     public List<Item> findByCategories(List<Integer> categoryIds) {
         return itemDAO.findByCategories(categoryIds);
+    }
+
+    @Override
+    public Optional<Item> findById(Integer id) {
+        return itemDAO.findById(id);
     }
 
 }

@@ -23,4 +23,9 @@ public class UserDAOImpl implements IUserDAO {
         return userRepository.save(user);
     }
 
+    @Override
+    public Optional<User> findById(Integer id) {
+        return userRepository.findById(id);
+    }
+
 }

@@ -26,6 +26,11 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public Optional<User> findById(Integer id) {
+        return userDAO.findById(id);
+    }
+
+    @Override
     public User register(RegisterRequestDTO registerRequestDTO) {
         Optional<User> existingUser = userDAO.findByEmail(registerRequestDTO.getEmail());
         if (existingUser.isPresent()) {

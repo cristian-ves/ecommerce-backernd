@@ -1,5 +1,6 @@
 package com.alejo.service.cart.impl;
 
+import com.alejo.controllers.auth.dto.UserDTO;
 import com.alejo.controllers.cart.dto.CartItemDetailsDTO;
 import com.alejo.controllers.items.dto.CategoryDTO;
 import com.alejo.controllers.items.dto.ItemDTO;
@@ -59,6 +60,14 @@ public class CartItemServiceImpl implements ICartItemService {
                                         .id(cartItem.getItem().getCategory().getId())
                                         .name(cartItem.getItem().getCategory().getName())
                                         .build())
+                                .user(UserDTO.builder()
+                                        .id(cartItem.getUser().getId())
+                                        .name(cartItem.getUser().getName())
+                                        .email(cartItem.getUser().getEmail())
+                                        .suspended(cartItem.getUser().getSuspended())
+                                        .role(cartItem.getUser().getRole())
+                                        .build()
+                                )
                                 .build())
                         .quantity(cartItem.getQuantity())
                         .build())

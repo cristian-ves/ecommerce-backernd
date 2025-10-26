@@ -19,4 +19,6 @@ public interface ItemRepository extends PagingAndSortingRepository<Item, Integer
     List<Item> findByCategoryIdIn(List<Integer> ids);
 
     Optional<Item> findById(int id);
+
+    void save(Item item);
 }

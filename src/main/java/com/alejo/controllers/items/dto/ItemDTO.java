@@ -1,6 +1,7 @@
 package com.alejo.controllers.items.dto;
 
 import com.alejo.controllers.auth.dto.UserDTO;
+import com.alejo.entities.items.Item;
 import lombok.*;
 
 @Data
@@ -20,5 +21,23 @@ public class ItemDTO {
     private double rating = 0.0;
     private int rates = 0;
     private boolean accepted = false;
+
+    public static ItemDTO fromEntity(Item item) {
+        return ItemDTO.builder()
+                .id(item.getId())
+                .name(item.getName())
+                .description(item.getDescription())
+                .image(item.getImage())
+                .price(item.getPrice())
+                .stock(item.getStock())
+                .isNew(item.isNew())
+                .rating(item.getRating())
+                .rates(item.getRates())
+                .category(CategoryDTO.builder()
+                        .id(item.getCategory().getId())
+                        .name(item.getCategory().getName())
+                        .build())
+                .build();
+    }
 
 }

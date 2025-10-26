@@ -1,6 +1,7 @@
 package com.alejo.persistence.purchases.impl;
 
 import com.alejo.controllers.purchases.dto.CardDTO;
+import com.alejo.controllers.purchases.dto.CardResponseDTO;
 import com.alejo.entities.auth.User;
 import com.alejo.entities.purchases.Card;
 import com.alejo.persistence.purchases.ICardDAO;
@@ -40,13 +41,13 @@ public class CardDAOImpl implements ICardDAO {
     }
 
     @Override
-    public List<CardDTO> findAllbyUserId(Integer id) {
+    public List<CardResponseDTO> findAllbyUserId(Integer id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         return cardRepository.findByUser(user)
                 .stream()
-                .map(c -> new CardDTO(c.getId(), c.getNumber(), c.getExpiration(), c.getCvv(), c.getName(), id))
+                .map(c -> new CardResponseDTO(c.getId(), c.getNumber().substring(c.getNumber().length() -4), id))
                 .collect(Collectors.toList());
     }
 }

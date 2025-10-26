@@ -1,6 +1,7 @@
 package com.alejo.controllers.purchases;
 
 import com.alejo.controllers.purchases.dto.CardDTO;
+import com.alejo.controllers.purchases.dto.CardResponseDTO;
 import com.alejo.service.purchases.ICardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class CardController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<List<CardDTO>> getCards(@PathVariable Integer userId) {
+    public ResponseEntity<List<CardResponseDTO>> getCards(@PathVariable Integer userId) {
 
         return ResponseEntity.ok(cardService.getCardsByUserId(userId));
 

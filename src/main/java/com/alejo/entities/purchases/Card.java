@@ -20,8 +20,8 @@ public class Card {
     @Column(nullable = false, length = 19)
     private String number;
 
-    @Column(nullable = false)
-    private LocalDateTime expiration;
+    @Column(nullable = false, length = 5)
+    private String expiration;
 
     @Column(nullable = false)
     private Integer cvv;

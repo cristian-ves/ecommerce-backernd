@@ -1,6 +1,7 @@
 package com.alejo.service.purchases.impl;
 
 import com.alejo.controllers.purchases.dto.CardDTO;
+import com.alejo.controllers.purchases.dto.CardResponseDTO;
 import com.alejo.persistence.purchases.ICardDAO;
 import com.alejo.service.purchases.ICardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class CardServiceImpl implements ICardService {
     }
 
     @Override
-    public List<CardDTO> getCardsByUserId(Integer id) {
+    public List<CardResponseDTO> getCardsByUserId(Integer id) {
         return cardDAO.findAllbyUserId(id);
     }
 }

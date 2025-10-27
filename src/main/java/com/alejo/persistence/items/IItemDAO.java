@@ -1,5 +1,6 @@
 package com.alejo.persistence.items;
 
+import com.alejo.controllers.items.dto.ItemDTO;
 import com.alejo.entities.items.Item;
 
 import java.util.List;
@@ -12,4 +13,6 @@ public interface IItemDAO {
     Optional<Item> findById(int id);
     List<Item> findByUser_Id(int id);
     Item save(Item item);
+    void update(ItemDTO itemDTO);
+    void review(ItemDTO itemDTO, double rate);
 }

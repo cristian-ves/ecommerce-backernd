@@ -68,4 +68,14 @@ public class ItemServiceImpl implements IItemService {
         return itemDAO.save(returnedItem);
     }
 
+    @Override
+    public void update(ItemDTO itemDTO) {
+        itemDAO.update(itemDTO);
+    }
+
+    @Override
+    public void review(ItemDTO item, double rate) {
+        itemDAO.review(item, rate);
+    }
+
 }

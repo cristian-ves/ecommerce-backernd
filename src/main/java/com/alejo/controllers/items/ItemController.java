@@ -84,6 +84,26 @@ public class ItemController {
         }
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<?> updateItem(@RequestBody ItemDTO itemDTO) {
+        try {
+            itemService.update(itemDTO);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/review")
+    public ResponseEntity<?> reviewItem(@RequestParam("rate") double rate, @RequestBody ItemDTO itemDTO) {
+        try {
+            itemService.review(itemDTO, rate);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     private ItemDTO mapToDTO(Item item) {
         return ItemDTO.builder()
                 .id(item.getId())

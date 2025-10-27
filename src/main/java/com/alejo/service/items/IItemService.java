@@ -14,4 +14,6 @@ public interface IItemService {
     Optional<Item> findById(Integer id);
     List<Item> findByUser_id(int id);
     Item save(ItemDTO item);
+    void update(ItemDTO item);
+    void review(ItemDTO item, double rate);
 }

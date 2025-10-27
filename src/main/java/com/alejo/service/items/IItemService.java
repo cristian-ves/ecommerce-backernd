@@ -1,5 +1,6 @@
 package com.alejo.service.items;
 
+import com.alejo.controllers.items.dto.ItemDTO;
 import com.alejo.entities.items.Item;
 
 import java.util.List;
@@ -11,5 +12,6 @@ public interface IItemService {
     List<Item> searchItems(String query);
     List<Item> findByCategories(List<Integer> categoryIds);
     Optional<Item> findById(Integer id);
-
+    List<Item> findByUser_id(int id);
+    Item save(ItemDTO item);
 }

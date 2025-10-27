@@ -28,17 +28,29 @@ public class ItemDAOImpl implements IItemDAO {
 
     @Override
     public List<Item> search(String query) {
-        return itemRepository.findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(query, query);
+        return itemRepository.search(query);
     }
 
     @Override
     public List<Item> findByCategories(List<Integer> categories) {
-        return itemRepository.findByCategoryIdIn(categories);
+        return itemRepository.findByCategoryIdInAndAcceptedTrue(categories);
     }
 
     @Override
     public Optional<Item> findById(int id) {
         return itemRepository.findById(id);
+    }
+
+    @Override
+    public List<Item> findByUser_Id(int id) {
+        return itemRepository.findByUser_Id(id);
+    }
+
+    @Override
+    public Item save(Item item) {
+        itemRepository.save(item);
+        return itemRepository.findById(item.getId())
+                .orElseThrow(() -> new RuntimeException("Item Not Found"));
     }
 
 

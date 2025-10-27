@@ -10,4 +10,6 @@ public interface IItemDAO {
     List<Item> search(String query);
     List<Item> findByCategories(List<Integer> categories);
     Optional<Item> findById(int id);
+    List<Item> findByUser_Id(int id);
+    Item save(Item item);
 }

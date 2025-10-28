@@ -3,10 +3,7 @@ package com.alejo.controllers.items;
 import com.alejo.controllers.auth.dto.AuthResponseDTO;
 import com.alejo.controllers.auth.dto.RegisterRequestDTO;
 import com.alejo.controllers.auth.dto.UserDTO;
-import com.alejo.controllers.items.dto.CategoryDTO;
-import com.alejo.controllers.items.dto.ItemDTO;
-import com.alejo.controllers.items.dto.ItemRequestDTO;
-import com.alejo.controllers.items.dto.UserRequestDTO;
+import com.alejo.controllers.items.dto.*;
 import com.alejo.entities.auth.User;
 import com.alejo.entities.items.Item;
 import com.alejo.security.JwtUtils;
@@ -124,6 +121,12 @@ public class ItemController {
     public ResponseEntity<?> rejectItem(@PathVariable int id) {
         itemService.rejectItem(id);
         return ResponseEntity.status(203).body("Item rejected");
+    }
+
+    @GetMapping("/top-users-items")
+    public ResponseEntity<List<TopClientProductsDTO>> getTopClientsByItems() {
+        List<TopClientProductsDTO> report = itemService.getTopClientsByProducts();
+        return ResponseEntity.ok(report);
     }
 
     private ItemRequestDTO mapToRequestDTO(Item item) {

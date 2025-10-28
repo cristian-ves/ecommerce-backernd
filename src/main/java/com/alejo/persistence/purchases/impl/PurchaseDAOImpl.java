@@ -1,10 +1,7 @@
 package com.alejo.persistence.purchases.impl;
 
 import com.alejo.controllers.cart.dto.CartItemDTO;
-import com.alejo.controllers.purchases.dto.ItemPurchasedDTO;
-import com.alejo.controllers.purchases.dto.PurchaseDTO;
-import com.alejo.controllers.purchases.dto.TopSellerDTO;
-import com.alejo.controllers.purchases.dto.TopSellerItemsDTO;
+import com.alejo.controllers.purchases.dto.*;
 import com.alejo.entities.auth.User;
 import com.alejo.entities.cart.CartItem;
 import com.alejo.entities.items.Item;
@@ -237,5 +234,19 @@ public class PurchaseDAOImpl implements IPurchaseDAO {
 
         return Optional.of(updated);
     }
+
+    @Transactional
+    @Override
+    public List<TopClientOrdersDTO> findTopClientsByOrders(LocalDateTime start, LocalDateTime end) {
+        return purchaseRepository.findTopClientsByOrders(start, end)
+                .stream()
+                .map(obj -> {
+                    User user = (User) obj[0];
+                    Long orders = (Long) obj[1];
+                    return new TopClientOrdersDTO(user.getId(), user.getName(), orders.intValue());
+                })
+                .toList();
+    }
+
 
 }

@@ -2,6 +2,7 @@ package com.alejo.persistence.purchases;
 
 import com.alejo.controllers.cart.dto.CartItemDTO;
 import com.alejo.controllers.purchases.dto.PurchaseDTO;
+import com.alejo.controllers.purchases.dto.TopClientOrdersDTO;
 import com.alejo.controllers.purchases.dto.TopSellerDTO;
 import com.alejo.controllers.purchases.dto.TopSellerItemsDTO;
 
@@ -22,5 +23,7 @@ public interface IPurchaseDAO {
     List<TopSellerDTO> findTopEarningUsers(LocalDateTime start, LocalDateTime end);
 
     List<TopSellerItemsDTO> findTopSellersByItemsSold(LocalDateTime start, LocalDateTime end);
+
+    List<TopClientOrdersDTO> findTopClientsByOrders(LocalDateTime start, LocalDateTime end);
 
 }

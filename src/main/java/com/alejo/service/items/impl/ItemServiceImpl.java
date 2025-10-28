@@ -2,6 +2,7 @@ package com.alejo.service.items.impl;
 
 import com.alejo.controllers.items.dto.CategoryDTO;
 import com.alejo.controllers.items.dto.ItemDTO;
+import com.alejo.controllers.items.dto.TopClientProductsDTO;
 import com.alejo.entities.auth.User;
 import com.alejo.entities.items.Category;
 import com.alejo.entities.items.Item;
@@ -95,6 +96,11 @@ public class ItemServiceImpl implements IItemService {
     @Override
     public void rejectItem(int id) {
         itemDAO.rejectItemRequest(id);
+    }
+
+    @Override
+    public List<TopClientProductsDTO> getTopClientsByProducts() {
+        return itemDAO.findTopClientsByItems();
     }
 
 }

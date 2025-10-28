@@ -35,4 +35,12 @@ public interface ItemRepository extends PagingAndSortingRepository<Item, Integer
 
     List<Item> findAllByAcceptedFalseAndRejectedFalse();
 
+    @Query("""
+        SELECT i.user, COUNT(i) as totalItems
+        FROM Item i
+        GROUP BY i.user
+        ORDER BY totalItems DESC
+    """)
+    List<Object[]> findTopUsersByItems();
+
 }

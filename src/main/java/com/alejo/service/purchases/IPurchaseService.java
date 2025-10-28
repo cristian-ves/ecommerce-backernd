@@ -1,10 +1,7 @@
 package com.alejo.service.purchases;
 
 import com.alejo.controllers.cart.dto.CartItemDTO;
-import com.alejo.controllers.purchases.dto.PurchaseDTO;
-import com.alejo.controllers.purchases.dto.TopItemDTO;
-import com.alejo.controllers.purchases.dto.TopSellerDTO;
-import com.alejo.controllers.purchases.dto.TopSellerItemsDTO;
+import com.alejo.controllers.purchases.dto.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,5 +21,7 @@ public interface IPurchaseService {
     List<TopSellerDTO> getTopEarningUsers(LocalDateTime start, LocalDateTime end);
 
     List<TopSellerItemsDTO> getTopSellersByItemsSold(LocalDateTime start, LocalDateTime end);
+
+    List<TopClientOrdersDTO> getTopClientsByOrders(LocalDateTime start, LocalDateTime end);
 
 }

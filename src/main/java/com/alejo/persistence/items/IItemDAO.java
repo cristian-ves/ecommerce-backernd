@@ -1,6 +1,7 @@
 package com.alejo.persistence.items;
 
 import com.alejo.controllers.items.dto.ItemDTO;
+import com.alejo.controllers.items.dto.TopClientProductsDTO;
 import com.alejo.entities.items.Item;
 
 import java.util.List;
@@ -18,4 +19,6 @@ public interface IItemDAO {
     List<Item> findItemRequests();
     void acceptItemRequest(int id);
     void rejectItemRequest(int id);
+    List<TopClientProductsDTO> findTopClientsByItems();
+
 }

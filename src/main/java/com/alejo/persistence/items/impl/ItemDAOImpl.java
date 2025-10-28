@@ -1,6 +1,8 @@
 package com.alejo.persistence.items.impl;
 
 import com.alejo.controllers.items.dto.ItemDTO;
+import com.alejo.controllers.items.dto.TopClientProductsDTO;
+import com.alejo.entities.auth.User;
 import com.alejo.entities.items.Category;
 import com.alejo.entities.items.Item;
 import com.alejo.persistence.items.IItemDAO;
@@ -11,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -114,5 +117,18 @@ public class ItemDAOImpl implements IItemDAO {
         itemRepository.save(item);
     }
 
+    @Transactional
+    @Override
+    public List<TopClientProductsDTO> findTopClientsByItems() {
+        return itemRepository.findTopUsersByItems()
+                .stream()
+                .limit(10) // top 10
+                .map(obj -> {
+                    User user = (User) obj[0];
+                    Long total = (Long) obj[1];
+                    return new TopClientProductsDTO(user.getId(), user.getName(), total.intValue());
+                })
+                .toList();
+    }
 
 }

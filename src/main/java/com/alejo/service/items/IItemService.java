@@ -1,6 +1,7 @@
 package com.alejo.service.items;
 
 import com.alejo.controllers.items.dto.ItemDTO;
+import com.alejo.controllers.items.dto.TopClientProductsDTO;
 import com.alejo.entities.items.Item;
 
 import java.util.List;
@@ -19,4 +20,5 @@ public interface IItemService {
     List<Item> findItemRequests();
     void acceptItem(int id);
     void rejectItem(int id);
+    List<TopClientProductsDTO> getTopClientsByProducts();
 }

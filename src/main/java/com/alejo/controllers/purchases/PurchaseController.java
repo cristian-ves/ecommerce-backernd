@@ -1,10 +1,7 @@
 package com.alejo.controllers.purchases;
 
 import com.alejo.controllers.cart.dto.CartItemDTO;
-import com.alejo.controllers.purchases.dto.PurchaseDTO;
-import com.alejo.controllers.purchases.dto.TopItemDTO;
-import com.alejo.controllers.purchases.dto.TopSellerDTO;
-import com.alejo.controllers.purchases.dto.TopSellerItemsDTO;
+import com.alejo.controllers.purchases.dto.*;
 import com.alejo.service.purchases.IPurchaseService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,6 +131,17 @@ public class PurchaseController {
         LocalDateTime end = LocalDate.parse(endDate).atTime(23, 59, 59);
         List<TopSellerItemsDTO> topSellers = purchaseService.getTopSellersByItemsSold(start, end);
         return ResponseEntity.ok(topSellers);
+    }
+
+    @GetMapping("/reports/top-clients-orders")
+    public ResponseEntity<List<TopClientOrdersDTO>> getTopClientsByOrders(
+            @RequestParam String startDate,
+            @RequestParam String endDate
+    ) {
+        LocalDateTime start = LocalDate.parse(startDate).atStartOfDay();
+        LocalDateTime end = LocalDate.parse(endDate).atTime(23, 59, 59);
+        List<TopClientOrdersDTO> topClients = purchaseService.getTopClientsByOrders(start, end);
+        return ResponseEntity.ok(topClients);
     }
 
 

@@ -1,10 +1,7 @@
 package com.alejo.service.purchases.impl;
 
 import com.alejo.controllers.cart.dto.CartItemDTO;
-import com.alejo.controllers.purchases.dto.PurchaseDTO;
-import com.alejo.controllers.purchases.dto.TopItemDTO;
-import com.alejo.controllers.purchases.dto.TopSellerDTO;
-import com.alejo.controllers.purchases.dto.TopSellerItemsDTO;
+import com.alejo.controllers.purchases.dto.*;
 import com.alejo.entities.items.Item;
 import com.alejo.persistence.purchases.IPurchaseDAO;
 import com.alejo.repository.purchases.ItemPurchasedRepository;
@@ -70,6 +67,11 @@ public class PurchaseServiceImpl implements IPurchaseService {
     @Override
     public List<TopSellerItemsDTO> getTopSellersByItemsSold(LocalDateTime start, LocalDateTime end) {
         return purchaseDAO.findTopSellersByItemsSold(start, end);
+    }
+
+    @Override
+    public List<TopClientOrdersDTO> getTopClientsByOrders(LocalDateTime start, LocalDateTime end) {
+        return purchaseDAO.findTopClientsByOrders(start, end);
     }
 
 

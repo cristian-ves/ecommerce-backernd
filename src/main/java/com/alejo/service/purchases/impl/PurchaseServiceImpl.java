@@ -7,7 +7,9 @@ import com.alejo.service.purchases.IPurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PurchaseServiceImpl implements IPurchaseService {
@@ -24,4 +26,21 @@ public class PurchaseServiceImpl implements IPurchaseService {
     public List<PurchaseDTO> getPurchasesByUserId(Integer userId) {
         return purchaseDAO.findByUserId(userId);
     }
+
+    @Override
+    public List<PurchaseDTO> findAll() {
+        return purchaseDAO.findAll();
+    }
+
+    @Override
+    public void markAsDelivered(Integer purchaseId) {
+        purchaseDAO.markAsDelivered(purchaseId);
+    }
+
+    @Override
+    public Optional<PurchaseDTO> updateDeliveryDate(Integer purchaseId, LocalDateTime newDate) {
+        return purchaseDAO.updateDeliveryDate(purchaseId, newDate);
+    }
+
+
 }

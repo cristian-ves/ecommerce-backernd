@@ -15,4 +15,7 @@ public interface IItemDAO {
     Item save(Item item);
     void update(ItemDTO itemDTO);
     void review(ItemDTO itemDTO, double rate);
+    List<Item> findItemRequests();
+    void acceptItemRequest(int id);
+    void rejectItemRequest(int id);
 }

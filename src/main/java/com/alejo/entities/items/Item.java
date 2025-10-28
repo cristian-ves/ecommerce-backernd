@@ -50,4 +50,7 @@ public class Item {
 
     @Column(nullable = false)
     private boolean accepted = false;
+
+    @Column(nullable = false)
+    private boolean rejected = false;
 }

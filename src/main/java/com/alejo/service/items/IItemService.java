@@ -16,4 +16,7 @@ public interface IItemService {
     Item save(ItemDTO item);
     void update(ItemDTO item);
     void review(ItemDTO item, double rate);
+    List<Item> findItemRequests();
+    void acceptItem(int id);
+    void rejectItem(int id);
 }

@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface PurchaseRepository extends CrudRepository<Purchase, Integer> {
     List<Purchase> findByUser_Id(Integer id);
+    List<Purchase> findAll();
 }

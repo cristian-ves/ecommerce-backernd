@@ -3,6 +3,7 @@ package com.alejo.repository.items;
 import com.alejo.entities.items.Item;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
@@ -31,5 +32,7 @@ public interface ItemRepository extends PagingAndSortingRepository<Item, Integer
     void save(Item item);
 
     List<Item> findByUser_Id(int id);
+
+    List<Item> findAllByAcceptedFalseAndRejectedFalse();
 
 }

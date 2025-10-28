@@ -3,9 +3,17 @@ package com.alejo.service.purchases;
 import com.alejo.controllers.cart.dto.CartItemDTO;
 import com.alejo.controllers.purchases.dto.PurchaseDTO;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface IPurchaseService {
     PurchaseDTO createPurchase(Integer userId, Integer cardId, List<CartItemDTO> items);
     List<PurchaseDTO> getPurchasesByUserId(Integer userId);
+    List<PurchaseDTO> findAll();
+
+    void markAsDelivered(Integer purchaseId);
+
+    Optional<PurchaseDTO> updateDeliveryDate(Integer purchaseId, LocalDateTime newDate);
+
 }

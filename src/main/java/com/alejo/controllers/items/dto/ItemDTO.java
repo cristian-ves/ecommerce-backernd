@@ -21,6 +21,7 @@ public class ItemDTO {
     private double rating = 0.0;
     private int rates = 0;
     private boolean accepted = false;
+    private boolean rejected = false;
 
     public static ItemDTO fromEntity(Item item) {
         return ItemDTO.builder()

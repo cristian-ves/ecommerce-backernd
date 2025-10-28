@@ -60,6 +60,10 @@ public class ItemDAOImpl implements IItemDAO {
         Item existingItem = itemRepository.findById(itemDTO.getId())
                 .orElseThrow(() -> new RuntimeException("Item not found with ID: " + itemDTO.getId()));
 
+        if (existingItem.getUser().getSuspended()) {
+            throw new RuntimeException("Cannot update item: user is suspended");
+        }
+
         existingItem.setName(itemDTO.getName());
         existingItem.setDescription(itemDTO.getDescription());
         existingItem.setImage(itemDTO.getImage());
@@ -89,6 +93,25 @@ public class ItemDAOImpl implements IItemDAO {
         existingItem.setRates(existingItem.getRates() + 1);
 
         itemRepository.save(existingItem);
+    }
+
+    @Override
+    public List<Item> findItemRequests() {
+        return itemRepository.findAllByAcceptedFalseAndRejectedFalse();
+    }
+
+    @Override
+    public void acceptItemRequest(int id) {
+        Item item = itemRepository.findById(id).orElseThrow(() -> new RuntimeException("Item not found with ID: " + id));
+        item.setAccepted(true);
+        itemRepository.save(item);
+    }
+
+    @Override
+    public void rejectItemRequest(int id) {
+        Item item = itemRepository.findById(id).orElseThrow(() -> new RuntimeException("Item not found with ID: " + id));
+        item.setRejected(true);
+        itemRepository.save(item);
     }
 
 

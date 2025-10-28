@@ -22,8 +22,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -133,4 +135,75 @@ public class PurchaseDAOImpl implements IPurchaseDAO {
                     .build();
         }).collect(Collectors.toList());
     }
+
+    @Override
+    public List<PurchaseDTO> findAll() {
+        return purchaseRepository.findAll().stream().map(p -> {
+            List<ItemPurchasedDTO> items = itemPurchasedRepository.findByPurchase(p)
+                    .stream()
+                    .map(ip -> new ItemPurchasedDTO(ip.getItem().getId(), ip.getUser().getId(), p.getId(), ip.getQuantity()))
+                    .collect(Collectors.toList());
+
+            return PurchaseDTO.builder()
+                    .purchaseId(p.getId())
+                    .userId(p.getUser().getId())
+                    .cardId(p.getCard().getId())
+                    .delivered(p.getDelivered())
+                    .createdAt(p.getCreatedAt())
+                    .deliveryDate(p.getDeliveryDate())
+                    .total(p.getTotal())
+                    .items(items)
+                    .build();
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void markAsDelivered(Integer purchaseId) {
+        Purchase purchase = purchaseRepository.findById(purchaseId)
+                .orElseThrow(() -> new IllegalArgumentException("Purchase not found with ID: " + purchaseId));
+
+        purchase.setDelivered(true);
+        purchase.setDeliveryDate(java.time.LocalDateTime.now());
+
+        purchaseRepository.save(purchase);
+    }
+
+    @Override
+    @Transactional
+    public Optional<PurchaseDTO> updateDeliveryDate(Integer purchaseId, LocalDateTime newDate) {
+        Purchase purchase = purchaseRepository.findById(purchaseId)
+                .orElseThrow(() -> new IllegalArgumentException("Purchase not found"));
+
+        if (newDate.isBefore(LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0))) {
+            throw new IllegalArgumentException("Delivery date must be today or later");
+        }
+
+        purchase.setDeliveryDate(newDate);
+        purchaseRepository.save(purchase);
+
+        List<ItemPurchasedDTO> items = itemPurchasedRepository.findByPurchase(purchase)
+                .stream()
+                .map(ip -> new ItemPurchasedDTO(
+                        ip.getItem().getId(),
+                        ip.getUser().getId(),
+                        purchase.getId(),
+                        ip.getQuantity()
+                ))
+                .toList();
+
+        PurchaseDTO updated = PurchaseDTO.builder()
+                .purchaseId(purchase.getId())
+                .userId(purchase.getUser().getId())
+                .cardId(purchase.getCard().getId())
+                .delivered(purchase.getDelivered())
+                .deliveryDate(purchase.getDeliveryDate())
+                .createdAt(purchase.getCreatedAt())
+                .total(purchase.getTotal())
+                .items(items)
+                .build();
+
+        return Optional.of(updated);
+    }
+
 }

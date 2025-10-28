@@ -5,6 +5,8 @@ import com.alejo.controllers.auth.dto.RegisterRequestDTO;
 import com.alejo.controllers.auth.dto.UserDTO;
 import com.alejo.controllers.items.dto.CategoryDTO;
 import com.alejo.controllers.items.dto.ItemDTO;
+import com.alejo.controllers.items.dto.ItemRequestDTO;
+import com.alejo.controllers.items.dto.UserRequestDTO;
 import com.alejo.entities.auth.User;
 import com.alejo.entities.items.Item;
 import com.alejo.security.JwtUtils;
@@ -102,6 +104,45 @@ public class ItemController {
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    @GetMapping("/requests")
+    public List<ItemRequestDTO> findItemRequests() {
+            List<Item> items = itemService.findItemRequests();
+            return items.stream()
+                    .map(this::mapToRequestDTO)
+                    .collect(Collectors.toList());
+    }
+
+    @PostMapping("/accept/{id}")
+    public ResponseEntity<?> acceptItem(@PathVariable int id) {
+        itemService.acceptItem(id);
+        return ResponseEntity.status(203).body("Item accepted");
+    }
+
+    @PostMapping("/reject/{id}")
+    public ResponseEntity<?> rejectItem(@PathVariable int id) {
+        itemService.rejectItem(id);
+        return ResponseEntity.status(203).body("Item rejected");
+    }
+
+    private ItemRequestDTO mapToRequestDTO(Item item) {
+        return ItemRequestDTO.builder()
+                .id(item.getId())
+                .name(item.getName())
+                .description(item.getDescription())
+                .image(item.getImage())
+                .price(item.getPrice())
+                .stock(item.getStock())
+                .isNew(item.isNew())
+                .accepted(item.isAccepted())
+                .rejected(item.isRejected())
+                .user(UserRequestDTO.builder()
+                        .name(item.getUser().getName())
+                        .email(item.getUser().getEmail())
+                        .suspended(item.getUser().getSuspended())
+                        .build())
+                .build();
     }
 
     private ItemDTO mapToDTO(Item item) {

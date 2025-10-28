@@ -54,6 +54,10 @@ public class ItemServiceImpl implements IItemService {
         User existingUser = userDAO.findById(item.getUser().getId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
+        System.out.println("___________________________________________________ SUSPENDED: " + existingUser.getSuspended());
+        if (existingUser.getSuspended()) {
+            throw new RuntimeException("Cannot add item: user is suspended");
+        }
 
         Item returnedItem = Item.builder()
                 .name(item.getName())
@@ -76,6 +80,21 @@ public class ItemServiceImpl implements IItemService {
     @Override
     public void review(ItemDTO item, double rate) {
         itemDAO.review(item, rate);
+    }
+
+    @Override
+    public List<Item> findItemRequests() {
+        return itemDAO.findItemRequests();
+    }
+
+    @Override
+    public void acceptItem(int id) {
+        itemDAO.acceptItemRequest(id);
+    }
+
+    @Override
+    public void rejectItem(int id) {
+        itemDAO.rejectItemRequest(id);
     }
 
 }

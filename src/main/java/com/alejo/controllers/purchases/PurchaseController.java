@@ -2,6 +2,9 @@ package com.alejo.controllers.purchases;
 
 import com.alejo.controllers.cart.dto.CartItemDTO;
 import com.alejo.controllers.purchases.dto.PurchaseDTO;
+import com.alejo.controllers.purchases.dto.TopItemDTO;
+import com.alejo.controllers.purchases.dto.TopSellerDTO;
+import com.alejo.controllers.purchases.dto.TopSellerItemsDTO;
 import com.alejo.service.purchases.IPurchaseService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,6 +96,44 @@ public class PurchaseController {
         public void setNewDate(String newDate) {
             this.newDate = newDate;
         }
+    }
+
+    @GetMapping("/reports/top-products")
+    public ResponseEntity<List<TopItemDTO>> getTopProducts(
+            @RequestParam String startDate,
+            @RequestParam String endDate
+    ) {
+        try {
+            LocalDateTime start = LocalDate.parse(startDate).atStartOfDay();
+            LocalDateTime end = LocalDate.parse(endDate).atTime(23, 59, 59);
+
+            List<TopItemDTO> topItems = purchaseService.getTopSellingItems(start, end);
+            return ResponseEntity.ok(topItems);
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @GetMapping("/reports/top-users-earnings")
+    public ResponseEntity<List<TopSellerDTO>> getTopUsersEarnings(
+            @RequestParam String startDate,
+            @RequestParam String endDate
+    ) {
+        LocalDateTime start = LocalDate.parse(startDate).atStartOfDay();
+        LocalDateTime end = LocalDate.parse(endDate).atTime(23, 59, 59);
+        List<TopSellerDTO> report = purchaseService.getTopEarningUsers(start, end);
+        return ResponseEntity.ok(report);
+    }
+
+    @GetMapping("/reports/top-sellers-items")
+    public ResponseEntity<List<TopSellerItemsDTO>> getTopSellersByItemsSold(
+            @RequestParam String startDate,
+            @RequestParam String endDate
+    ) {
+        LocalDateTime start = LocalDate.parse(startDate).atStartOfDay();
+        LocalDateTime end = LocalDate.parse(endDate).atTime(23, 59, 59);
+        List<TopSellerItemsDTO> topSellers = purchaseService.getTopSellersByItemsSold(start, end);
+        return ResponseEntity.ok(topSellers);
     }
 
 

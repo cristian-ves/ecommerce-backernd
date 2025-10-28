@@ -3,6 +3,8 @@ package com.alejo.persistence.purchases.impl;
 import com.alejo.controllers.cart.dto.CartItemDTO;
 import com.alejo.controllers.purchases.dto.ItemPurchasedDTO;
 import com.alejo.controllers.purchases.dto.PurchaseDTO;
+import com.alejo.controllers.purchases.dto.TopSellerDTO;
+import com.alejo.controllers.purchases.dto.TopSellerItemsDTO;
 import com.alejo.entities.auth.User;
 import com.alejo.entities.cart.CartItem;
 import com.alejo.entities.items.Item;
@@ -47,6 +49,36 @@ public class PurchaseDAOImpl implements IPurchaseDAO {
     private ItemPurchasedRepository itemPurchasedRepository;
     @Autowired
     private CartItemDAOImpl cartItemDAOImpl;
+
+    @Transactional
+    @Override
+    public List<TopSellerDTO> findTopEarningUsers(LocalDateTime start, LocalDateTime end) {
+        return itemPurchasedRepository.findTopSellersByEarnings(start, end)
+                .stream()
+                .map(obj -> {
+                    Integer userId = (Integer) obj[0];
+                    String userName = (String) obj[1];
+                    Double totalEarnings = (Double) obj[2];
+                    return new TopSellerDTO(userId, userName, totalEarnings);
+                })
+                .toList();
+    }
+
+    @Transactional
+    @Override
+    public List<TopSellerItemsDTO> findTopSellersByItemsSold(LocalDateTime start, LocalDateTime end) {
+        return itemPurchasedRepository.findTopSellersByItemsSold(start, end)
+                .stream()
+                .map(obj -> {
+                    User user = (User) obj[0];
+                    Long totalSold = (Long) obj[1];
+                    return new TopSellerItemsDTO(user.getId(), user.getName(), totalSold.intValue());
+                })
+                .limit(5)
+                .toList();
+    }
+
+
 
     @Transactional
     @Override

@@ -2,6 +2,8 @@ package com.alejo.persistence.purchases;
 
 import com.alejo.controllers.cart.dto.CartItemDTO;
 import com.alejo.controllers.purchases.dto.PurchaseDTO;
+import com.alejo.controllers.purchases.dto.TopSellerDTO;
+import com.alejo.controllers.purchases.dto.TopSellerItemsDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,5 +18,9 @@ public interface IPurchaseDAO {
     void markAsDelivered(Integer purchaseId);
 
     Optional<PurchaseDTO> updateDeliveryDate(Integer purchaseId, LocalDateTime newDate);
+
+    List<TopSellerDTO> findTopEarningUsers(LocalDateTime start, LocalDateTime end);
+
+    List<TopSellerItemsDTO> findTopSellersByItemsSold(LocalDateTime start, LocalDateTime end);
 
 }
